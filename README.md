@@ -1,22 +1,33 @@
 # Software-Testing
 
-## Test Plan : 
+## Launch tests
 
-### Si champ texte : 
+```bash
+$ npx playwright test
+# or 
+$ npx playwright test --ui
+```
+
+## Test Plan
+
+### Si champ texte
+
 - Dépasser la limite de char
 - Espace
-- Empty Char : ‎https://www.editpad.org/tool/invisible-character
+- Empty Char : ‎<https://www.editpad.org/tool/invisible-character>
 - Chiffres
 - Rien
 
-### Si champ num only : 
+### Si champ num only
+
 - Rien
 - Lettres
-- Nombres négatifs 
+- Nombres négatifs
 - Beaucoup de chiffres
 - Nombre avec exponentielle (10e25)
 
-### Si possibilité de modifier les champs :
+### Si possibilité de modifier les champs
+
 - Ne rien modifier
 - Modifier un champ uniquement par modification
 - Modifier plusieurs champs par modification
