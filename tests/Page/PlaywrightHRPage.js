@@ -31,7 +31,7 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
   }
 
   async goToAddEmployee() {
-    this.goto();
+    await this.goto();
     await this.getAddEmployeeLink.first().click();
     await expect(this.gettingAddEmployeeHeader).toBeVisible();
   }
