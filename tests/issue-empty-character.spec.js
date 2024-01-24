@@ -20,6 +20,6 @@ test('create employee with empty character', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
 
   await playwrightHR.addNewEmployee('‎ ', 'john.doe@email.fr', '‎ ',
-      '‎ ', '‎ ', '75001', '2021-01-01', '‎ ');
+    '‎ ', '‎ ', '75001', '2021-01-01', '‎ ');
   await expect(page.locator('table')).not.toContainText('‎ ');
 });

@@ -7,6 +7,6 @@ test('create employee with numbers as name', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
 
   await playwrightHR.addNewEmployee('-10', 'john.doe@email.fr', '32 avenue de la république',
-      'Adress Line 2', 'Paris', '75001', '2021-01-01', 'Software Engineer');
+    'Adress Line 2', 'Paris', '75001', '2021-01-01', 'Software Engineer');
   await expect(page.locator('table')).not.toContainText('-10');
 });

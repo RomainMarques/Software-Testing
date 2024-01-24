@@ -25,7 +25,7 @@ test('address_line2 take address_line1 input after retry', async ({ page }) => {
 
     await expect(page.getByRole('heading')).toContainText('Edit Employee');
     await page.click('text=Update address');
-    
+
     // The bug should manifest here : the address_line2 field took the value of address_line1 two iterations before
     await expect(page.locator('[name="address_line2"]')).toHaveValue("10 Rue des potiers");
 });
