@@ -4,43 +4,64 @@
 const { test, expect } = require('@playwright/test');
 const { PlaywrightHRPage } = require('./Page/PlaywrightHRPage');
 
+// Fonction pour créer un employé de test avec des données aléatoires
+function createTestEmployee() {
+  const chars = '0123456789';
+  let random = '';
+  for (let i = 10; i > 0; --i) random += chars[Math.floor(Math.random() * chars.length)];
+  random = random.substring(0, 10);
+
+  return {
+    name: 'bug07' + random,
+    email: 'bug07' + random + '@email.fr',
+    addressLine1: 'bug07' + random,
+    addressLine2: 'bug07' + random,
+    city: 'bug07' + random,
+    zipCode: random,
+    jobTitle: 'bug07' + random
+  };
+}
+
+// Employé de test partagé entre les tests
+const testEmployee = createTestEmployee();
+    
+
 test('has footer version 1.0.4', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
 
   await playwrightHR.verifyVersion('1.0.4');
 });
 
-test('employee is added twice and is had doppeldanger', async ({ page }) => {
+test('employee is added twice and no doppledanger', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
 
   for (let i = 0; i < 2; i++) {
     await playwrightHR.addNewEmployee(
-      'John Doe',
-      'john.doe@email.fr',
-      '32 avenue de la république',
-      'Adress Line 2',
-      'Paris',
-      '75001',
+      testEmployee.name,
+      testEmployee.email,
+      testEmployee.addressLine1,
+      testEmployee.addressLine2,
+      testEmployee.city,
+      testEmployee.zipCode,
       '2021-01-01',
-      'Software Engineer'
+      testEmployee.jobTitle
     );
   }
 
   await playwrightHR.goToListEmployee();
-  await expect(page.getByRole('table')).toContainText('John Doe');
-  await expect(page.getByRole('table')).toContainText('john.doe@dmerej.info');
+  await expect(page.getByRole('table')).toContainText(testEmployee.name);
 
   const tableRows = await page.$$('tbody tr');
 
   const rowCount = await page.evaluate(
-    (rows) => {
+    ({ rows, testName, testEmail }) => {
       return rows.filter(row => {
         const textContent = row.textContent || '';
-        return textContent.includes('John Doe') && textContent.includes('john.doe@dmerej.info');
+        return textContent.includes(testName) && textContent.includes(testEmail);
       }).length;
     },
-    tableRows
-  );
+    { rows: tableRows, testName: testEmployee.name, testEmail: testEmployee.email }
+  );  
 
   expect(rowCount).toBe(1);
 });
