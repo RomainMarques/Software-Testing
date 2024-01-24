@@ -54,7 +54,7 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
     await expect(this.gettingAddNewTeamHeader).toBeVisible();
   }
 
-  async addNewEmployee(name, email, address_line1, address_line2, city, zip_code, hiring_date, job_title) {
+  async addNewEmployee(name = 'John Doe', email = 'john.doe@email.net', address_line1 = 'add1', address_line2 = 'add2', city = 'city', zip_code = '12345', hiring_date = '1970-01-01', job_title = 'Job') {
     await this.goToAddEmployee();
     await this.page.fill('[name="name"]', name);
     await this.page.fill('[name="email"]', email);
