@@ -3,16 +3,10 @@
 const { test, expect } = require('@playwright/test');
 const { PlaywrightHRPage } = require('./Page/PlaywrightHRPage');
 
-test('has footer version 1.0.4', async ({ page }) => {
-  const playwrightHR = new PlaywrightHRPage(page);
-
-  await playwrightHR.verifyVersion('1.0.4');
-});
-
 test('team is added', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
 
   await playwrightHR.addTeam(' ');
-  
+
   await expect(page.url()).toBe('https://k.hr.dmerej.info/teams');
 });

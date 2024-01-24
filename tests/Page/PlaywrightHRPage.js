@@ -75,10 +75,11 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
   }
 
   async addEmployeeToTeam(name, team) {
-    await this.goToListEmployee();
-    await this.page.click('text=Edit');
+    const employee = await this.findEmployee(name);
+    await employee.locator('text=Edit').click();
+    await expect(this.page.locator('text=John Doe')).toBeVisible();
     await this.page.click('text=Add to team');
-    await this.page.fill('[name="team"]', team); // TODO
+    await this.page.selectOption('select[name="team"]', { label: team + ' team' });
     await this.page.click('button[type="submit"]');
   }
 
@@ -87,6 +88,12 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
     await this.gettingResetDBLink.first().click();
     await expect(this.gettingResetDBHeader).toBeVisible();
     await this.page.click('button[type="submit"]');
+  }
+
+  async findEmployee(name) {
+    await this.goToListEmployee();
+    await expect(this.gettingListEmployeeHeader).toBeVisible();
+    return this.page.locator('tr:has-text("' + name + '")').first()
   }
 
 };

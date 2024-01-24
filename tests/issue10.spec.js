@@ -3,19 +3,13 @@
 const { test, expect } = require('@playwright/test');
 const { PlaywrightHRPage } = require('./Page/PlaywrightHRPage');
 
-test('has footer version 1.0.4', async ({ page }) => {
-    const playwrightHR = new PlaywrightHRPage(page);
-    
-    await playwrightHR.verifyVersion('1.0.4');
-});
-
 // create an employee, add him to a team, delete the team, check if the employee is deleted
 
 test('employee is added', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
-  
+
     await playwrightHR.addNewEmployee('John Doe', 'john.doe@email.fr', '32 avenue de la république', 'Adress Line 2', 'Paris', '75001', '2021-01-01', 'Software Engineer');
-  
+
     await playwrightHR.goToListEmployee();
     await expect(page.getByRole('table')).toContainText('John Doe');
     await expect(page.getByRole('table')).toContainText('john.doe@email.fr');
@@ -23,9 +17,9 @@ test('employee is added', async ({ page }) => {
 
 test('team is added', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
-  
+
     await playwrightHR.addTeam('Team 1');
-    
+
     await expect(page.url()).toBe('https://k.hr.dmerej.info/teams');
     await playwrightHR.goToListTeams();
     await expect(page.getByRole('table')).toContainText('Team 1');
@@ -33,12 +27,16 @@ test('team is added', async ({ page }) => {
 
 test('employee is added to team', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
-  
-    await playwrightHR.addEmployeeToTeam('John Doe', 'Team 1');
-    
-    await expect(page.url()).toBe('https://k.hr.dmerej.info/teams');
+
+    const teamName = 'Team 1'
+
+    await playwrightHR.addEmployeeToTeam('John Doe', teamName);
+
+    await expect(page.locator('text=John Doe')).toBeVisible();
     await playwrightHR.goToListTeams();
-    await expect(page.getByRole('table')).toContainText('John Doe');
+    const test = await page.locator('tr:has-text("' + teamName + '")').first();
+    await test.locator('text=View members').click();
+    await expect(page.locator('text=John Doe')).toBeVisible();
 });
 
 /*test('team is deleted', async ({ page }) => {

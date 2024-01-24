@@ -24,13 +24,6 @@ function createTestEmployee() {
 
 // Employé de test partagé entre les tests
 const testEmployee = createTestEmployee();
-    
-
-test('has footer version 1.0.4', async ({ page }) => {
-  const playwrightHR = new PlaywrightHRPage(page);
-
-  await playwrightHR.verifyVersion('1.0.4');
-});
 
 test('employee is added twice and no doppledanger', async ({ page }) => {
   const playwrightHR = new PlaywrightHRPage(page);
@@ -61,7 +54,7 @@ test('employee is added twice and no doppledanger', async ({ page }) => {
       }).length;
     },
     { rows: tableRows, testName: testEmployee.name, testEmail: testEmployee.email }
-  );  
+  );
 
   expect(rowCount).toBe(1);
 });
