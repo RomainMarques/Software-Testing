@@ -24,7 +24,7 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
   }
 
   async verifyVersion(version) {
-    this.goto();
+    await this.goto();
     await expect(this.page.getByRole('contentinfo')).toBeVisible();
     const footerText = await this.page.getByRole('contentinfo').innerText();
     await expect(footerText).toContain(version);
@@ -37,25 +37,25 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
   }
 
   async goToListEmployee() {
-    this.goto();
+    await this.goto();
     await this.getListEmployeeLink.first().click();
     await expect(this.gettingListEmployeeHeader).toBeVisible();
   }
 
   async goToListTeams() {
-    this.goto();
+    await this.goto();
     await this.getListTeamsLink.first().click();
     await expect(this.gettingListTeamsHeader).toBeVisible();
   }
 
   async goToAddNewTeam() {
-    this.goto();
+    await this.goto();
     await this.getAddNewTeamLink.first().click();
     await expect(this.gettingAddNewTeamHeader).toBeVisible();
   }
 
   async addNewEmployee(name, email, address_line1, address_line2, city, zip_code, hiring_date, job_title) {
-    this.goToAddEmployee();
+    await this.goToAddEmployee();
     await this.page.fill('[name="name"]', name);
     await this.page.fill('[name="email"]', email);
     await this.page.fill('[name="address_line1"]', address_line1);
@@ -69,13 +69,13 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
   }
 
   async addTeam(name) {
-    this.goToAddNewTeam();
+    await this.goToAddNewTeam();
     await this.page.fill('[name="name"]', name);
     await this.page.click('button[type="submit"]');
   }
 
   async resetDB() {
-    this.goto();
+    await this.goto();
     await this.gettingResetDBLink.first().click();
     await expect(this.gettingResetDBHeader).toBeVisible();
     await this.page.click('button[type="submit"]');
