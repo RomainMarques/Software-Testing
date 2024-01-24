@@ -1,4 +1,5 @@
 // @ts-check
+// [Bug](https://github.com/RomainMarques/Software-Testing-K/issues/1) : When we want to edit the hiring date of an employee, the date is not editable.
 const { test, expect } = require('@playwright/test');
 
 test('has footer version 1.0.4', async ({ page }) => {
@@ -46,8 +47,7 @@ test('employee is added', async ({ page }) => {
 test("employee's hired date is edited", async ({ page }) => {
   await page.goto('https://k.hr.dmerej.info/employees');
 
-  // TODO: Click the edit button of the line WHere John Doe is
-  await page.click('text=Edit');
+  await page.click('text=Edit'); // there is no importance to choose the same employee because this bug is always present for all employees
 
   await page.click('text=Update contract');
 
