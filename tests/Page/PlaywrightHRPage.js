@@ -74,6 +74,14 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
     await this.page.click('button[type="submit"]');
   }
 
+  async addEmployeeToTeam(name, team) {
+    await this.goToListEmployee();
+    await this.page.click('text=Edit');
+    await this.page.click('text=Add to team');
+    await this.page.fill('[name="team"]', team); // TODO
+    await this.page.click('button[type="submit"]');
+  }
+
   async resetDB() {
     await this.goto();
     await this.gettingResetDBLink.first().click();
