@@ -8,10 +8,10 @@ const { PlaywrightHRPage } = require('./Page/PlaywrightHRPage');
 test('employee is added', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
 
-    await playwrightHR.addNewEmployee('John Doe', 'john.doe@email.fr', '32 avenue de la république', 'Adress Line 2', 'Paris', '75001', '2021-01-01', 'Software Engineer');
+    await playwrightHR.addNewEmployee('issue10', 'john.doe@email.fr', '32 avenue de la république', 'Adress Line 2', 'Paris', '75001', '2021-01-01', 'Software Engineer');
 
     await playwrightHR.goToListEmployee();
-    await expect(page.getByRole('table')).toContainText('John Doe');
+    await expect(page.getByRole('table')).toContainText('issue10');
     await expect(page.getByRole('table')).toContainText('john.doe@email.fr');
 });
 
@@ -30,28 +30,27 @@ test('employee is added to team', async ({ page }) => {
 
     const teamName = 'Team 1'
 
-    await playwrightHR.addEmployeeToTeam('John Doe', teamName);
+    await playwrightHR.addEmployeeToTeam('issue10', teamName);
 
-    await expect(page.locator('text=John Doe')).toBeVisible();
+    await expect(page.locator('text=issue10')).toBeVisible();
     await playwrightHR.goToListTeams();
     const test = await page.locator('tr:has-text("' + teamName + '")').first();
     await test.locator('text=View members').click();
-    await expect(page.locator('text=John Doe')).toBeVisible();
+    await expect(page.locator('text=issue10')).toBeVisible();
 });
 
-/*test('team is deleted', async ({ page }) => {
+test('team is deleted', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
-  
+
     await playwrightHR.deleteTeam('Team 1');
-    
-    await expect(page.url()).toBe('https://k.hr.dmerej.info/teams');
+
     await playwrightHR.goToListTeams();
-    await expect(page.getByRole('table')).not.toContainText('Team 1');
+    await expect(page.locator('text=No teams yet')).toBeVisible();
 });
 
 test('employee is not deleted', async ({ page }) => {
     const playwrightHR = new PlaywrightHRPage(page);
-  
+
     await playwrightHR.goToListEmployee();
-    await expect(page.getByRole('table')).toContainText('John Doe');
-});*/
+    await expect(page.getByRole('table')).toContainText('issue10');
+});

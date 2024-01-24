@@ -74,10 +74,17 @@ exports.PlaywrightHRPage = class PlaywrightHRPage {
     await this.page.click('button[type="submit"]');
   }
 
+  async deleteTeam(name) {
+    await this.goToListTeams();
+    await this.page.locator('tr:has-text("' + name + '")').first().locator('text=Delete').click();
+    await this.page.click('button[type="submit"]');
+    await expect(this.gettingListTeamsHeader).toBeVisible();
+  }
+
   async addEmployeeToTeam(name, team) {
     const employee = await this.findEmployee(name);
     await employee.locator('text=Edit').click();
-    await expect(this.page.locator('text=John Doe')).toBeVisible();
+    await expect(this.page.locator('text=' + name)).toBeVisible();
     await this.page.click('text=Add to team');
     await this.page.selectOption('select[name="team"]', { label: team + ' team' });
     await this.page.click('button[type="submit"]');
